@@ -46,7 +46,7 @@ func NewReleaseHandler(keptnHandler Handler,
 
 // HandleEvent handles release.triggered events and either promotes or aborts an artifact
 func (h *ReleaseHandler) HandleEvent(ctx context.Context, ce cloudevents.Event) {
-	defer ctx.Value("Wg").(*sync.WaitGroup).Done()
+	defer ctx.Value(GracefulShutdownKey).(*sync.WaitGroup).Done()
 	e := keptnv2.ReleaseTriggeredEventData{}
 	if err := ce.DataAs(&e); err != nil {
 		err = fmt.Errorf("failed to unmarshal data: %v", err)

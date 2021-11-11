@@ -28,7 +28,7 @@ func NewRollbackHandler(keptnHandler Handler,
 }
 
 func (r *RollbackHandler) HandleEvent(ctx context.Context, ce cloudevents.Event) {
-	defer ctx.Value("Wg").(*sync.WaitGroup).Done()
+	defer ctx.Value(GracefulShutdownKey).(*sync.WaitGroup).Done()
 	e := keptnv2.RollbackTriggeredEventData{}
 	if err := ce.DataAs(&e); err != nil {
 		err = fmt.Errorf("failed to unmarshal data: %v", err)
